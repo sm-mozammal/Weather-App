@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 // Keys
 const String kKeySelectedLocation = 'selected_location';
 const String kKeySelectedLat = 'selected_lot';

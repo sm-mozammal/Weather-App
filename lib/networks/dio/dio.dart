@@ -18,7 +18,7 @@ final class DioSingleton {
 
   void create() {
     BaseOptions options = BaseOptions(
-        baseUrl: url,
+        baseUrl: Endpoints.baseUrl,
         connectTimeout: const Duration(milliseconds: 100000),
         receiveTimeout: const Duration(milliseconds: 100000),
         headers: {
@@ -35,7 +35,7 @@ final class DioSingleton {
       print("Dio update");
     }
     BaseOptions options = BaseOptions(
-      baseUrl: url,
+      baseUrl: Endpoints.baseUrl,
       responseType: ResponseType.json,
       headers: {
         NetworkConstants.ACCEPT: NetworkConstants.ACCEPT_TYPE,
@@ -53,7 +53,7 @@ final class DioSingleton {
       print("Dio update $countryCode");
     }
     BaseOptions options = BaseOptions(
-      baseUrl: url,
+      baseUrl: Endpoints.baseUrl,
       responseType: ResponseType.json,
       headers: {
         NetworkConstants.ACCEPT: NetworkConstants.ACCEPT_TYPE,

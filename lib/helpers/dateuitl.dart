@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_new, unused_local_variable, prefer_interpolation_to_compose_strings
+// ignore_for_file: unnecessary_new, unused_local_variable, prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

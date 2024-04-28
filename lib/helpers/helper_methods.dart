@@ -1,18 +1,22 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:intl/intl.dart';
 import '../common_widgets/custom_button.dart';
 import '../constants/app_constants.dart';
 import '../constants/text_font_style.dart';
 import '../gen/colors.gen.dart';
 import '/helpers/di.dart';
 import '/helpers/toast.dart';
+import 'locations_helper.dart';
 
 Future<void> setInitValue() async {
   appData.writeIfNull(kKeyCountryCode, 'Bangladesh');
@@ -40,7 +44,25 @@ setLocationLatLong(LatLng latLng, {bool? selectedLocation = false}) async {
   await appData.write(kKeySelectedLocation, selectedLocation);
 }
 
-Future<void> initiInternetChecker() async {
+Future<void> getLocation() async {
+  try {
+    final position = await determinePosition();
+    List<Placemark> countryName =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
+    if (countryName.isNotEmpty) {
+      final country = countryName.first.country!;
+      appData.write(kKeyCountryCode, country);
+      appData.write(kKeySelectedLat, position.latitude.toString());
+      appData.write(kKeySelectedLng, position.longitude.toString());
+      log(country);
+    }
+  } catch (e) {
+    log(e.toString());
+    ToastUtil.showLongToast(e.toString());
+  }
+}
+
+Future<void> initInternetChecker() async {
   InternetConnectionChecker.createInstance(
           checkTimeout: const Duration(seconds: 1),
           checkInterval: const Duration(seconds: 2))
@@ -115,4 +137,48 @@ void rotation() {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+}
+
+String formatedHour(String date) {
+  // String formattedDate = DateFormat('yyyy-MM-dd').format(date);
+  DateTime dateTime = DateFormat('yyyy-MM-dd HH:mm').parse(date);
+
+  // Format only the time part
+  String formattedTime = DateFormat('HH:mm').format(dateTime);
+  // String formattedTime = DateFormat('HH:mm:').format(date);
+  return formattedTime;
+}
+
+String formatedDate(String date) {
+  // String formattedDate = DateFormat('yyyy-MM-dd').format(date);
+  DateTime dateTime = DateFormat('yyyy-MM-dd HH:mm').parse(date);
+
+  // Format only the time part
+  String formattedTime = DateFormat('MM-dd').format(dateTime);
+  return formattedTime;
+}
+
+String formatDateString(String dateString) {
+  DateTime dateTime = DateTime.parse(dateString);
+  DateTime now = DateTime.now();
+
+  if (isSameDay(dateTime, now)) {
+    return 'Today';
+  } else if (isNextDay(dateTime, now)) {
+    return 'Tomorrow';
+  } else {
+    return DateFormat('EEEE').format(dateTime); // Returns the full weekday name
+  }
+}
+
+bool isSameDay(DateTime date1, DateTime date2) {
+  return date1.year == date2.year &&
+      date1.month == date2.month &&
+      date1.day == date2.day;
+}
+
+bool isNextDay(DateTime date1, DateTime date2) {
+  return date1.year == date2.year &&
+      date1.month == date2.month &&
+      date1.day - date2.day == 1;
 }
