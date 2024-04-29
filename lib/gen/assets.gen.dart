@@ -22,8 +22,15 @@ class $AssetsIconsGen {
   AssetGenImage get placeholderImage =>
       const AssetGenImage('assets/icons/placeholder_image.jpeg');
 
+  /// File path: assets/icons/sun-fog.svg
+  String get sunFog => 'assets/icons/sun-fog.svg';
+
+  /// File path: assets/icons/sun.svg
+  String get sun => 'assets/icons/sun.svg';
+
   /// List of all assets
-  List<dynamic> get values => [location, partlyCloudy, placeholderImage];
+  List<dynamic> get values =>
+      [location, partlyCloudy, placeholderImage, sunFog, sun];
 }
 
 class $AssetsImagesGen {

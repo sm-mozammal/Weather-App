@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:weather_app/features/home/bloc/bloc.dart';
 import 'package:weather_app/helpers/register_provider.dart';
 import 'features/home/presentation/home_screen.dart';
+import 'helpers/all_routes.dart';
 import 'helpers/di.dart';
 import 'helpers/helper_methods.dart';
 import 'networks/dio/dio.dart';
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
                         ColorScheme.fromSeed(seedColor: Colors.deepPurple),
                     useMaterial3: true,
                   ),
+                  onGenerateRoute: RouteGenerator.generateRoute,
                   home: const HomeScreen(),
                 ),
               ),

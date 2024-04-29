@@ -19,10 +19,14 @@ class TextFontStyle {
       color: AppColors.cFFFFFF, fontSize: 18.sp, fontWeight: FontWeight.w600);
   static final headline18StyleInter400 = GoogleFonts.inter(
       color: AppColors.cFFFFFF, fontSize: 18.sp, fontWeight: FontWeight.w400);
+  static final headline24StyleInter = GoogleFonts.inter(
+      color: AppColors.cFFFFFF, fontSize: 24.sp, fontWeight: FontWeight.w400);
   static final headline16StyleInter = GoogleFonts.inter(
       color: AppColors.cFFFFFF, fontSize: 16.sp, fontWeight: FontWeight.w400);
   static final headline14StyleInter700 = GoogleFonts.inter(
       color: AppColors.cFFFFFF, fontSize: 14.sp, fontWeight: FontWeight.w700);
   static final headline14StyleInter = GoogleFonts.inter(
       color: AppColors.cFFFFFF, fontSize: 14.sp, fontWeight: FontWeight.w400);
+  static final headline20StyleInter = GoogleFonts.inter(
+      color: AppColors.c000000, fontSize: 20.sp, fontWeight: FontWeight.w700);
 }

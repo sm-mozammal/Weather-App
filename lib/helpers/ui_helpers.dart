@@ -20,6 +20,7 @@ final class UIHelper {
   static final double _horizontalSpaceMedium = 20.0.h;
   static final double _horizontalSpaceSemiLarge = 40.0.h;
   static final double _horizontalSpaceLarge = 60.0.h;
+  static final double _horizontalSpaceExtraLarge = 95.0.h;
 
   static Widget verticalSpaceSmall = SizedBox(height: _verticalSpaceSmall);
   static Widget verticalSpaceMedium = SizedBox(height: _verticalSpaceMedium);
@@ -36,6 +37,8 @@ final class UIHelper {
   static Widget horizontalSpaceSemiLarge =
       SizedBox(width: _horizontalSpaceSemiLarge);
   static Widget horizontalSpaceLarge = SizedBox(width: _horizontalSpaceLarge);
+  static Widget horizontalSpaceExtraLarge =
+      SizedBox(width: _horizontalSpaceExtraLarge);
 
   static Widget horizontalSpace(double width) => SizedBox(width: width);
   static Widget verticalSpace(double height) => SizedBox(height: height);

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -21,6 +22,7 @@ import 'locations_helper.dart';
 Future<void> setInitValue() async {
   appData.writeIfNull(kKeyCountryCode, 'Bangladesh');
   appData.writeIfNull(kKeySelectedLocation, false);
+  appData.writeIfNull(kKeySwitchTemp, false);
 
   await appData.writeIfNull(kKeySelectedLat, 22.818285677915657);
   await appData.writeIfNull(kKeySelectedLng, 89.5535583794117);
@@ -46,6 +48,12 @@ setLocationLatLong(LatLng latLng, {bool? selectedLocation = false}) async {
 
 Future<void> getLocation() async {
   try {
+    final serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location service is disabled
+      ToastUtil.showLongToast("Location service is disabled");
+      return;
+    }
     final position = await determinePosition();
     List<Placemark> countryName =
         await placemarkFromCoordinates(position.latitude, position.longitude);
