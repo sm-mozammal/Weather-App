@@ -9,6 +9,7 @@ import 'features/home/presentation/home_screen.dart';
 import 'helpers/all_routes.dart';
 import 'helpers/di.dart';
 import 'helpers/helper_methods.dart';
+import 'networks/dao/db_init.dart';
 import 'networks/dio/dio.dart';
 
 void main() async {
@@ -16,6 +17,8 @@ void main() async {
   diSetup();
   initInternetChecker();
   DioSingleton.instance.create();
+  await DbSingleton.instance.create();
+
   runApp(const MyApp());
 }
 

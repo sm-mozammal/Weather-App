@@ -211,7 +211,7 @@ class Current {
 
 class Condition {
   Text? text;
-  Icon? icon;
+  String? icon;
   int? code;
 
   Condition({
@@ -222,7 +222,7 @@ class Condition {
 
   Condition copyWith({
     Text? text,
-    Icon? icon,
+    String? icon,
     int? code,
   }) =>
       Condition(
@@ -238,13 +238,13 @@ class Condition {
 
   factory Condition.fromJson(Map<String, dynamic> json) => Condition(
         text: textValues.map[json["text"]],
-        icon: iconValues.map[json["icon"]],
+        icon: json["icon"],
         code: json["code"],
       );
 
   Map<String, dynamic> toJson() => {
         "text": textValues.reverse[text],
-        "icon": iconValues.reverse[icon],
+        "icon": icon,
         "code": code,
       };
 }

@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,12 +9,12 @@ import 'package:provider/provider.dart';
 import 'package:weather_app/constants/app_constants.dart';
 import 'package:weather_app/features/home/bloc/bloc.dart';
 import 'package:weather_app/features/home/bloc/state.dart';
+import 'package:weather_app/features/home/data/repository/local_repository.dart';
 import 'package:weather_app/features/home/presentation/widgets/custom_container.dart';
 import 'package:weather_app/helpers/all_routes.dart';
 import 'package:weather_app/helpers/ui_helpers.dart';
 import 'package:weather_app/provider/change_unite_provider.dart';
 import 'package:weather_app/provider/forecast_provider.dart';
-
 import '../../../constants/text_font_style.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../gen/colors.gen.dart';
@@ -37,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     // Call getLocation in initState to get weather data initially
+    locator.get<WeatherLocalRepository>().getForecast();
     getLocation().then((value) => context.read<WeatherBloc>().add(
           InitialCurrentWeatherEvent(
               lat: appData.read(kKeySelectedLat),
@@ -47,6 +47,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ChangeUnitPorvider provider =
+        Provider.of<ChangeUnitPorvider>(context, listen: false);
     return Scaffold(
       body: Center(
         child:
@@ -75,13 +77,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   // Display Location
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Spacer(),
+                      UIHelper.horizontalSpaceSmall,
                       Text(
                         state.currentWeather.location!.name ?? '',
                         style: TextFontStyle.headline32StyleInter,
                       ),
-                      UIHelper.horizontalSpaceExtraLarge,
+                      // UIHelper.horizontalSpaceExtraLarge,
                       GestureDetector(
                         onTap: () {
                           Navigator.pushNamed(context, Routes.setting);
@@ -92,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           size: 30.sp,
                         ),
                       ),
-                      UIHelper.horizontalSpaceMedium,
+                      // UIHelper.horizontalSpaceMedium,
                     ],
                   ),
                   UIHelper.verticalSpaceMedium,
@@ -104,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       SvgPicture.asset(Assets.icons.location),
                       Text('Current Location',
                           textAlign: TextAlign.center,
-                          style: TextFontStyle.headline12StyleInter)
+                          style: TextFontStyle.headline14StyleInter)
                     ],
                   ),
 
@@ -113,7 +116,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   // Display Today Weather condition
                   Text(
-                    '${state.currentWeather.current!.condition!.text ?? ''}  -  H:${state.currentWeather.current!.humidity ?? ''}\u00B0  L:4\u00B0',
+                    provider.select
+                        ? '${state.currentWeather.current!.condition!.text ?? ''}  -  H:${state.forecastWeather.forecast!.forecastday!.first.day?.maxtempC!}\u00B0  L:${state.forecastWeather.forecast!.forecastday!.first.day?.mintempC!}\u00B0'
+                        : '${state.currentWeather.current!.condition!.text ?? ''}  -  H:${state.forecastWeather.forecast!.forecastday!.first.day?.maxtempF!}\u00B0  L:${state.forecastWeather.forecast!.forecastday!.first.day?.mintempF!}\u00B0',
                     textAlign: TextAlign.center,
                     style: TextFontStyle.headline18StyleInter,
                   ),
@@ -274,6 +279,18 @@ class _HomeScreenState extends State<HomeScreen> {
             log("provider index:" + provider.index.toString());
             final data = state
                 .forecastWeather.forecast!.forecastday![provider.index].hour!;
+
+            // Remove %20 from the URL
+            // Remove %20 from the URL and add https: if necessary
+            String iconUrl = data[index].condition!.icon!;
+            String cleanedUrl = iconUrl.replaceAll("%20", "");
+
+            // Add https: at the beginning if not already present
+            if (!cleanedUrl.startsWith("https:")) {
+              cleanedUrl = "https:$cleanedUrl";
+            }
+
+            log(cleanedUrl);
             return Padding(
               padding: EdgeInsets.symmetric(horizontal: 10.w),
               child: Container(
@@ -290,8 +307,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   shape: RoundedRectangleBorder(
                     side: const BorderSide(
-                      color: Colors.transparent,
-                      strokeAlign: BorderSide.strokeAlignOutside,
+                      width: 2,
+                      color: AppColors.c97ABFF,
                     ),
                     borderRadius: BorderRadius.circular(100),
                   ),
@@ -306,13 +323,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     UIHelper.verticalSpaceSmall,
 
-                    // Display Weather Condition Icon
+                    // Display Weather Condition Icon By Hour
                     SizedBox(
                       height: 58.h,
                       width: 48.w,
                       child: CachedNetworkImage(
                         fit: BoxFit.cover,
-                        imageUrl: 'https:${data[index].condition!.icon}',
+                        imageUrl: cleanedUrl,
                         placeholder: (context, url) =>
                             SvgPicture.asset(Assets.icons.partlyCloudy),
                         errorWidget: (context, url, error) =>

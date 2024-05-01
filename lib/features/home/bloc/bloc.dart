@@ -1,6 +1,9 @@
 import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../helpers/di.dart';
+import '../data/repository/local_repository.dart';
 import '../data/repository/weather_repository.dart';
 import '../model/current_weather.dart';
 import '../model/forecast_weather.dart';
@@ -23,6 +26,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       ForecastWeather forecastData = await locator
           .get<WeatherRepository>()
           .getForecastData(event.lat, event.lon);
+      locator.get<WeatherLocalRepository>().saveData([forecastData.toJson()]);
       // log(forecastData.toString());
       emit(CurrentDataFetchState(
           currentWeather: currentData, forecastWeather: forecastData));
