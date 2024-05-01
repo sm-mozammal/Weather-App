@@ -22,6 +22,7 @@ import '../../../helpers/di.dart';
 import '../../../helpers/helper_methods.dart';
 import '../bloc/event.dart';
 import 'widgets/action_button.dart';
+import 'package:auto_animated/auto_animated.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -271,11 +272,15 @@ class _HomeScreenState extends State<HomeScreen> {
       CurrentDataFetchState state, ForecastProvider provider) {
     return SizedBox(
       height: 180.h,
-      child: ListView.builder(
+      child: LiveList(
           scrollDirection: Axis.horizontal,
+          showItemInterval: const Duration(milliseconds: 150),
+          showItemDuration: const Duration(milliseconds: 150),
+          reAnimateOnVisibility: true,
+          // padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
           itemCount: state.forecastWeather.forecast!
               .forecastday![provider.index].hour!.length,
-          itemBuilder: (context, index) {
+          itemBuilder: (context, index, animation) {
             log("provider index:" + provider.index.toString());
             final data = state
                 .forecastWeather.forecast!.forecastday![provider.index].hour!;
@@ -291,61 +296,69 @@ class _HomeScreenState extends State<HomeScreen> {
             }
 
             log(cleanedUrl);
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.w),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 16.h),
-                width: 80.w,
-                decoration: ShapeDecoration(
-                  gradient: const LinearGradient(
-                    begin: Alignment(0.26, -0.97),
-                    end: Alignment(-0.26, 0.97),
-                    colors: [
-                      AppColors.c91A3DE,
-                      AppColors.c546FC5,
-                    ],
-                  ),
-                  shape: RoundedRectangleBorder(
-                    side: const BorderSide(
-                      width: 2,
-                      color: AppColors.c97ABFF,
-                    ),
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    // Display Time
-                    Text(
-                      formatedHour(data[index].time!),
-                      textAlign: TextAlign.center,
-                      style: TextFontStyle.headline16StyleInter,
-                    ),
-                    UIHelper.verticalSpaceSmall,
+            return FadeTransition(
+                opacity: Tween<double>(begin: 0, end: 1.0).animate(animation),
+                child: SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(0, -0.2),
+                      end: Offset.zero,
+                    ).animate(animation),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 8.w, vertical: 16.h),
+                        width: 80.w,
+                        decoration: ShapeDecoration(
+                          gradient: const LinearGradient(
+                            begin: Alignment(0.26, -0.97),
+                            end: Alignment(-0.26, 0.97),
+                            colors: [
+                              AppColors.c91A3DE,
+                              AppColors.c546FC5,
+                            ],
+                          ),
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                              width: 2,
+                              color: AppColors.c97ABFF,
+                            ),
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            // Display Time
+                            Text(
+                              formatedHour(data[index].time!),
+                              textAlign: TextAlign.center,
+                              style: TextFontStyle.headline16StyleInter,
+                            ),
+                            UIHelper.verticalSpaceSmall,
 
-                    // Display Weather Condition Icon By Hour
-                    SizedBox(
-                      height: 58.h,
-                      width: 48.w,
-                      child: CachedNetworkImage(
-                        fit: BoxFit.cover,
-                        imageUrl: cleanedUrl,
-                        placeholder: (context, url) =>
-                            SvgPicture.asset(Assets.icons.partlyCloudy),
-                        errorWidget: (context, url, error) =>
-                            SvgPicture.asset(Assets.icons.partlyCloudy),
+                            // Display Weather Condition Icon By Hour
+                            SizedBox(
+                              height: 58.h,
+                              width: 48.w,
+                              child: CachedNetworkImage(
+                                fit: BoxFit.cover,
+                                imageUrl: cleanedUrl,
+                                placeholder: (context, url) =>
+                                    SvgPicture.asset(Assets.icons.partlyCloudy),
+                                errorWidget: (context, url, error) =>
+                                    SvgPicture.asset(Assets.icons.partlyCloudy),
+                              ),
+                            ),
+
+                            // Display this temparature
+                            Text(
+                              '${data[index].tempC}\u00B0',
+                              style: TextFontStyle.headline18StyleInter400,
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-
-                    // Display this temparature
-                    Text(
-                      '${data[index].tempC}\u00B0',
-                      style: TextFontStyle.headline18StyleInter400,
-                    )
-                  ],
-                ),
-              ),
-            );
+                    )));
           }),
     );
   }
