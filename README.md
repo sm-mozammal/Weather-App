@@ -1,16 +1,31 @@
-# weather_app
+# Weater App
 
-A new Flutter project.
+## Description
+Welcome to the Weather App, your go-to solution for staying updated on weather conditions effortlessly.
 
-## Getting Started
+## Key Features
+- **State Management Provider:**Utilizing the power of Bloc architecture ensures a robust and scalable application structure, enhancing code organization and maintainability.
 
-This project is a starting point for a Flutter application.
+- **Clean Code with Detailed Comments:** Our codebase boasts clean and well-organized code, complemented by detailed comments for enhanced readability and maintainability, streamlining the development process.
 
-A few resources to get you started if this is your first Flutter project:
+- **Real-Time Weather Updates:** Stay informed with real-time weather updates, providing accurate and timely information for your location.
+-
+- **User-Friendly Interface:**  Enjoy a sleek and intuitive user interface designed for seamless navigation and enhanced user experience.
+-
+- **Location-Based Forecast:** Get weather forecasts tailored to your location, ensuring you're prepared for whatever the elements may bring.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Screenshots
+
+|                                 Weather Screen (c)               |         Weather Screen (F)                                  |                   Seattings Screen                                  |                                |
+|:--------------------------------------------------------------:|:--------------------------------------------------------------:|:--------------------------------------------------------------:|:--------------------------------------------------------------:|
+| <img src="assets/screenshots/1.png" height="400" width="auto"> | <img src="assets/screenshots/2.png" height="400" width="auto"> | src="assets/screenshots/3.png" height="400" width="auto"> |
+
+
+
+## Installation
+1. Clone the repository: `git clone https://github.com/Margub-Morshed/Job-Board-App.git`
+2. Install dependencies: `flutter pub get`
+3. Run the app: `flutter run`
+
+## Contributing
