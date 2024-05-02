@@ -19,7 +19,7 @@ Welcome to the Weather App, your go-to solution for staying updated on weather c
 
 |                                 Weather Screen (c)               |         Weather Screen (F)                                  |                   Seattings Screen                                  |                                |
 |:--------------------------------------------------------------:|:--------------------------------------------------------------:|:--------------------------------------------------------------:|:--------------------------------------------------------------:|
-| <img src="assets/screenshots/1.png" height="400" width="auto"> | <img src="assets/screenshots/2.png" height="400" width="auto"> | src="assets/screenshots/3.png" height="400" width="auto"> |
+| <img src="assets/screenshots/1.png" height="400" width="auto"> | <img src="assets/screenshots/2.png" height="400" width="auto"> | <img src="assets/screenshots/3.png" height="400" width="auto"> |
 
 
 
