@@ -25,7 +25,7 @@ Welcome to the Weather App, your go-to solution for staying updated on weather c
 1. Download Link : `https://drive.google.com/file/d/13jSfxTOOEKiPriSJ5MQqbuhQLxjpvhCi/view?usp=drive_link`
 
 ## Installation
-1. Clone the repository: `git clone https://github.com/Margub-Morshed/Job-Board-App.git`
+1. Clone the repository: `https://github.com/sm-mozammal/Weather-App.git`
 2. Install dependencies: `flutter pub get`
 3. Run the app: `flutter run`
 
